@@ -2,13 +2,13 @@ import requests
 import cv2 as cv
 import streamlit as st
 
-from app.stream.wrapper import WrappedStream
+from app.stream.wrapper import WrappedVideoStream
 
 URL = "http://localhost:8080/predictions/densenet161"
 
 
 def main():
-    stream = WrappedStream.open(0)
+    stream = WrappedVideoStream.open(0)
 
     frame = st.empty()
     text = st.empty()
