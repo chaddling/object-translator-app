@@ -8,6 +8,7 @@ class WrappedVideoStream:
     """
     Wrapper class of the OpenCV VideoCapture object.
     """
+
     @classmethod
     def open(cls, device_id: int = 0) -> Self:
         cls.stream = cv.VideoCapture(device_id)

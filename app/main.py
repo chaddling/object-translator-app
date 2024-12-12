@@ -1,33 +1,16 @@
-import requests
-import cv2 as cv
+import asyncio
 import streamlit as st
 
-from app.stream.wrapper import WrappedVideoStream
+from stream.wrapper import WrappedVideoStream
+from stream.coroutines import do_streaming
 
-URL = "http://localhost:8080/predictions/densenet161"
 
+stream = WrappedVideoStream.open(0)
+container = st.empty() # What's the type hint?
 
-def main():
-    stream = WrappedVideoStream.open(0)
-
-    frame = st.empty()
-    text = st.empty()
-    stop_button = st.button("Stop")
-
-    while stream.is_opened() and not stop_button:
-        image = stream.read()
-        frame.image(image, channels="RGB")
-
-        _, encoded = cv.imencode(".jpg", image)
-        img_string = encoded.tostring()
-
-        res = requests.post(URL, data=img_string, headers={'content-type': 'image/jpeg'})
-        text.write(res.text)
-    
-        if stop_button:
-            break
-
-    stream.release()
+async def main():
+    while True:
+        await do_streaming(stream, container)
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())
