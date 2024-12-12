@@ -1,33 +1,34 @@
 import aiohttp
-import requests
-import time
+import asyncio
 import cv2 as cv
+
+from stream.wrapper import WrappedVideoStream
 
 URL = "http://localhost:8080/predictions/densenet161"
 
 
-async def async_get_prediction(image: cv.typing.MatLike):
+async def get_prediction(image: cv.typing.MatLike):
     _, encoded = cv.imencode(".jpg", image)
 
+    # Do we really need this? Just use requsts.post?
     async with aiohttp.ClientSession() as client:
         res = await client.post(
-            url=URL,
-            data=encoded.tostring(),
-            headers={"content-type": "image/jpeg"}
+            url=URL, data=encoded.tostring(), headers={"content-type": "image/jpeg"}
         )
         return await res.text()
-    
-def get_prediction(image: cv.typing.MatLike):
-    s = time.perf_counter()
 
-    _, encoded = cv.imencode(".jpg", image)
-    elapsed = time.perf_counter() - s
 
-    print(elapsed)
+async def display_one_frame(stream: WrappedVideoStream, container):
+    image = stream.read()
+    container.image(image, channels="RGB")
 
-    res = requests.post(
-        URL,
-        encoded.tostring(),
-        headers={"content-type": "image/jpeg"}
-    )
-    return res.text
+
+async def do_streaming(stream: WrappedVideoStream, container):
+    image = stream.read()
+    prediction_task = asyncio.create_task(get_prediction(image))
+
+    while not prediction_task.done():
+        display_task = asyncio.create_task(display_one_frame(stream, container))
+        await display_task
+
+    print(prediction_task.result())
