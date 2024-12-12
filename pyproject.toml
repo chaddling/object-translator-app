@@ -11,6 +11,11 @@ python = "^3.11"
 opencv-python = "^4.10.0.84"
 streamlit = "^1.40.2"
 logging = "^0.4.9.6"
+aiohttp = "^3.11.10"
+grpcio = "^1.68.1"
+protobuf = "^5.29.1"
+grpcio-tools = "^1.68.1"
+googleapis-common-protos = "^1.66.0"
 
 [tool.poetry.group.dev.dependencies]
 black = "^24.10.0"
