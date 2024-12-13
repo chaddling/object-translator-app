@@ -1,3 +1,5 @@
+# NOTE Dockerfile doesn't really work when hosting from MacOS
+# may abandon this
 FROM python:3.11.10
 USER $USERNAME
 EXPOSE 8501
@@ -11,11 +13,11 @@ RUN curl -sSL https://install.python-poetry.org | python3 -
 
 WORKDIR /app
 
-COPY ./app/* /app/
-
 COPY ./poetry.lock ./pyproject.toml /app/
 
 RUN poetry install --no-root
 
-CMD ["poetry", "run", "streamlit", "run", "main.py"]
+COPY ./app/main.py /app/
+COPY ./app/stream/ /app/stream/
 
+CMD ["poetry", "run", "streamlit", "run", "main.py"]
