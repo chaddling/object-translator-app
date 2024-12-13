@@ -10,7 +10,6 @@ URL = "http://localhost:8080/predictions/densenet161"
 async def get_prediction(image: cv.typing.MatLike):
     _, encoded = cv.imencode(".jpg", image)
 
-    # Do we really need this? Just use requsts.post?
     async with aiohttp.ClientSession() as client:
         res = await client.post(
             url=URL, data=encoded.tostring(), headers={"content-type": "image/jpeg"}
