@@ -13,3 +13,6 @@ serving-build:
 
 serving-start:
 	docker run -p 8080:8080 -it --rm pytorch-serve:latest
+
+app-start:
+	poetry run streamlit run app/main.py
