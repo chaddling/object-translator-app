@@ -4,7 +4,7 @@ from torchvision.models import MobileNet_V3_Large_Weights
 from torchvision.models.detection.backbone_utils import mobilenet_backbone
 
 
-class FRCNNObjectDetector(FasterRCNN):
+class FRCNNMobileNetV3Large(FasterRCNN):
     """Based on: https://github.com/pytorch/vision/blob/f7b1cfa8f7e10e0c157da6e55dc6f0237397faec/torchvision/models/detection/faster_rcnn.py#L683"""
 
     def __init__(self, num_classes=91, **kwargs):
@@ -25,7 +25,7 @@ class FRCNNObjectDetector(FasterRCNN):
         ) * 3
         aspect_ratios = ((0.5, 1.0, 2.0),) * len(anchor_sizes)
 
-        super(FRCNNObjectDetector, self).__init__(
+        super(FRCNNMobileNetV3Large, self).__init__(
             backbone,
             num_classes,
             rpn_anchor_generator=AnchorGenerator(anchor_sizes, aspect_ratios),
