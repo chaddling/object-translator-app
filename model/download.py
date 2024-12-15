@@ -4,7 +4,8 @@ import logging
 import urllib.request
 
 _serialized = {
-    "mobilenet_v3_large": "https://download.pytorch.org/models/fasterrcnn_mobilenet_v3_large_fpn-fb6a3cc7.pth"
+    "mobilenet_v3_large": "https://download.pytorch.org/models/fasterrcnn_mobilenet_v3_large_fpn-fb6a3cc7.pth",
+    "resnet50": "https://download.pytorch.org/models/fasterrcnn_resnet50_fpn_coco-258fb6c6.pth"
 }
 
 
