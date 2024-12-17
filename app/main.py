@@ -1,17 +1,17 @@
 import asyncio
 import streamlit as st
 
-from stream.wrapper import WrappedVideoStream
+from stream.wrapper import WrappedVideoStream, Prediction
 from stream.coroutines import do_streaming
 
 
-stream = WrappedVideoStream.open(0)
+stream = WrappedVideoStream.open(src=0)
 container = st.empty()  # What's the type hint?
-
+prediction = Prediction()
 
 async def main():
     while True:
-        await do_streaming(stream, container)
+        await do_streaming(stream, container, prediction)
 
 
 if __name__ == "__main__":

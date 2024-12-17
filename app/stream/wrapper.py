@@ -10,8 +10,8 @@ class WrappedVideoStream:
     """
 
     @classmethod
-    def open(cls, device_id: int = 0) -> Self:
-        cls.stream = cv.VideoCapture(device_id)
+    def open(cls, src: int) -> Self:
+        cls.stream = cv.VideoCapture(src)
         if not cls.is_opened():
             logging.error("Cannot open camera!")
         return cls
@@ -34,3 +34,22 @@ class WrappedVideoStream:
 
         frame = cv.cvtColor(frame, cv.COLOR_BGR2RGB)
         return frame
+
+
+class Prediction:
+    """
+    An object used to persist prediction results across frames.
+    """
+
+    def __init__(self):
+        self.label = None
+        self.bounding_box = None
+        self.has_prediction = False
+
+    def set(self, label, bounding_box):
+        self.label = label
+        self.bounding_box = bounding_box
+        self.has_prediction = True
+
+    def get(self):
+        return self.label, self.bounding_box

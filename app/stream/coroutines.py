@@ -1,8 +1,10 @@
+import ast
 import aiohttp
 import asyncio
 import cv2 as cv
 
-from stream.wrapper import WrappedVideoStream
+from datetime import datetime
+from stream.wrapper import WrappedVideoStream, Prediction
 
 URL = "http://localhost:8080/predictions/fasterrcnn"
 
@@ -17,17 +19,28 @@ async def get_prediction(image: cv.typing.MatLike):
         return await res.text()
 
 
-async def display_one_frame(stream: WrappedVideoStream, container):
+async def display_one_frame(stream: WrappedVideoStream, container, prediction: Prediction):
     image = stream.read()
+
+    if prediction.has_prediction:
+        label, bounding_box = prediction.get()
+
+        xmin, ymin, xmax, ymax = [int(x) for x in bounding_box]
+        cv.rectangle(image, (xmin, ymin), (xmax, ymax), (0, 255, 0), 5)
+
     container.image(image, channels="RGB")
 
 
-async def do_streaming(stream: WrappedVideoStream, container):
+async def do_streaming(stream: WrappedVideoStream, container, prediction: Prediction):
     image = stream.read()
     prediction_task = asyncio.create_task(get_prediction(image))
 
     while not prediction_task.done():
-        display_task = asyncio.create_task(display_one_frame(stream, container))
+        display_task = asyncio.create_task(display_one_frame(stream, container, prediction))
         await display_task
 
-    print(prediction_task.result())
+    results = ast.literal_eval(prediction_task.result())
+    if results:
+        label, bounding_box = next(iter(results[0].items()))
+        print(label, bounding_box, datetime.now())
+        prediction.set(label=label, bounding_box=bounding_box)
