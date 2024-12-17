@@ -9,7 +9,7 @@ install:
 	poetry install
 
 serving-build:
-	docker build \
+	docker build --no-cache \
 	--build-arg MODEL_NAME="mobilenet_v3_large" \
 	--tag "pytorch-serve" \
 	-f ./model/Dockerfile .

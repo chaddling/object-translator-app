@@ -6,9 +6,9 @@ from torchvision.models.detection.backbone_utils import mobilenet_backbone
 
 class FRCNNMobileNetV3Large(FasterRCNN):
     """
-    Based on: 
+    Based on:
     https://github.com/pytorch/vision/blob/f7b1cfa8f7e10e0c157da6e55dc6f0237397faec/torchvision/models/detection/faster_rcnn.py#L683
-    
+
     NOTE that depending on the backbone used, the FasterRCNN class init is done differently.
     """
 
