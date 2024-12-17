@@ -3,7 +3,6 @@ import aiohttp
 import asyncio
 import cv2 as cv
 
-from datetime import datetime
 from stream.wrapper import WrappedVideoStream, Prediction
 
 URL = "http://localhost:8080/predictions/fasterrcnn"
@@ -29,16 +28,16 @@ async def display_one_frame(
 
         xmin, ymin, xmax, ymax = [int(x) for x in bounding_box]
         cv.rectangle(
-            image, pt1=(xmin, ymin), pt2=(xmax, ymax), color=(0, 255, 0), size=5
+            image, pt1=(xmin, ymin), pt2=(xmax, ymax), color=(0, 255, 0), thickness=5
         )
         cv.putText(
             image,
-            label=f"{label}: {round(score, 2)}",
+            text=f"{label}: {round(score, 2)}",
             org=(xmin, ymin - 20),
             fontFace=0,
             fontScale=2.0,
             color=(0, 255, 0),
-            size=5,
+            thickness=5,
         )
 
     container.image(image, channels="RGB")
