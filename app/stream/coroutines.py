@@ -4,7 +4,7 @@ import cv2 as cv
 
 from stream.wrapper import WrappedVideoStream
 
-URL = "http://localhost:8080/predictions/densenet161"
+URL = "http://localhost:8080/predictions/fasterrcnn"
 
 
 async def get_prediction(image: cv.typing.MatLike):
