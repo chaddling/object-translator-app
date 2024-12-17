@@ -9,6 +9,7 @@ stream = WrappedVideoStream.open(src=0)
 container = st.empty()  # What's the type hint?
 prediction = Prediction()
 
+
 async def main():
     while True:
         await do_streaming(stream, container, prediction)

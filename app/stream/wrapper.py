@@ -44,12 +44,14 @@ class Prediction:
     def __init__(self):
         self.label = None
         self.bounding_box = None
+        self.score = None
         self.has_prediction = False
 
-    def set(self, label, bounding_box):
+    def set(self, label, bounding_box, score):
         self.label = label
         self.bounding_box = bounding_box
+        self.score = score
         self.has_prediction = True
 
     def get(self):
-        return self.label, self.bounding_box
+        return self.label, self.bounding_box, self.score

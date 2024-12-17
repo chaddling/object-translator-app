@@ -19,14 +19,25 @@ async def get_prediction(image: cv.typing.MatLike):
         return await res.text()
 
 
-async def display_one_frame(stream: WrappedVideoStream, container, prediction: Prediction):
+async def display_one_frame(
+    stream: WrappedVideoStream, container, prediction: Prediction
+):
     image = stream.read()
 
     if prediction.has_prediction:
-        label, bounding_box = prediction.get()
+        label, bounding_box, score = prediction.get()
 
         xmin, ymin, xmax, ymax = [int(x) for x in bounding_box]
         cv.rectangle(image, (xmin, ymin), (xmax, ymax), (0, 255, 0), 5)
+        cv.putText(
+            image,
+            f"{label}: {round(score, 2)}",
+            (xmin, ymin - 20),
+            0,
+            2.0,
+            (0, 255, 0),
+            5,
+        )
 
     container.image(image, channels="RGB")
 
@@ -36,11 +47,13 @@ async def do_streaming(stream: WrappedVideoStream, container, prediction: Predic
     prediction_task = asyncio.create_task(get_prediction(image))
 
     while not prediction_task.done():
-        display_task = asyncio.create_task(display_one_frame(stream, container, prediction))
+        display_task = asyncio.create_task(
+            display_one_frame(stream, container, prediction)
+        )
         await display_task
 
     results = ast.literal_eval(prediction_task.result())
     if results:
         label, bounding_box = next(iter(results[0].items()))
-        print(label, bounding_box, datetime.now())
-        prediction.set(label=label, bounding_box=bounding_box)
+        score = results[0]["score"]
+        prediction.set(label=label, bounding_box=bounding_box, score=score)
