@@ -28,15 +28,17 @@ async def display_one_frame(
         label, bounding_box, score = prediction.get()
 
         xmin, ymin, xmax, ymax = [int(x) for x in bounding_box]
-        cv.rectangle(image, (xmin, ymin), (xmax, ymax), (0, 255, 0), 5)
+        cv.rectangle(
+            image, pt1=(xmin, ymin), pt2=(xmax, ymax), color=(0, 255, 0), size=5
+        )
         cv.putText(
             image,
-            f"{label}: {round(score, 2)}",
-            (xmin, ymin - 20),
-            0,
-            2.0,
-            (0, 255, 0),
-            5,
+            label=f"{label}: {round(score, 2)}",
+            org=(xmin, ymin - 20),
+            fontFace=0,
+            fontScale=2.0,
+            color=(0, 255, 0),
+            size=5,
         )
 
     container.image(image, channels="RGB")
