@@ -28,6 +28,7 @@ CMD ["torchserve", "--start", "--disable-token-auth", "--ncs", "--model-store mo
 
 FROM serving_base as serving_grpc
 # Should manage these with poetry, but will need to downgrade to python 3.9
+EXPOSE 7070 7071
 RUN pip install grpcio protobuf grpcio-tools googleapis-common-protos
 ADD ./grpc_serving /model/grpc_serving
 

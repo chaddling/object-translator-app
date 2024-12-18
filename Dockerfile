@@ -17,7 +17,7 @@ COPY ./poetry.lock ./pyproject.toml /app/
 
 RUN poetry install --no-root
 
-COPY ./app/main.py /app/
-COPY ./app/stream/ /app/stream/
+COPY ./main.py /app/
+ADD ./stream /app/stream
 
 CMD ["poetry", "run", "streamlit", "run", "main.py"]
