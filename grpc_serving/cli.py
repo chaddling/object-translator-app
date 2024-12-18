@@ -19,8 +19,8 @@ def get_management_stub():
     return stub
 
 
-def register(stub, model_name, metadata):
-    marfile = f"./{MODEL_NAME}.mar"
+def register(stub, model_name=MODEL_NAME, metadata=METADATA):
+    marfile = f"./{model_name}.mar"
 
     logging.info(f"Registered marfile: {marfile}\n")
     params = {
@@ -39,19 +39,18 @@ def register(stub, model_name, metadata):
         exit(1)
 
 
-def infer(stub, model_name, model_input, metadata):
-    with open(model_input, "rb") as f:
-        data = f.read()
-
+async def infer(stub, data, model_name=MODEL_NAME, metadata=METADATA):
     input_data = {"data": data}
-    response = stub.Predictions(
-        inference_pb2.PredictionsRequest(model_name=model_name, input=input_data),
-        metadata=metadata,
-    )
+    async with grpc.aio.insecure_channel("localhost:7070") as channel:
+        stub = inference_pb2_grpc.InferenceAPIsServiceStub(channel)
+        response = await stub.Predictions(
+            inference_pb2.PredictionsRequest(model_name=model_name, input=input_data),
+            metadata=metadata,
+        )
 
     try:
         prediction = response.prediction.decode("utf-8")
-        logging.info(prediction)
+        return prediction
     except grpc.RpcError as e:
         logging.error(e)
         exit(1)
