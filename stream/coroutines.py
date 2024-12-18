@@ -1,11 +1,20 @@
 import ast
 import aiohttp
 import asyncio
+import time
 import cv2 as cv
 
 from stream.wrapper import WrappedVideoStream, Prediction
+from grpc_serving.cli import infer, get_inference_stub
 
 URL = "http://localhost:8080/predictions/fasterrcnn"
+
+
+async def get_grpc(image: cv.typing.MatLike):
+    _, encoded = cv.imencode(".jpg", image)
+
+    res = await infer(get_inference_stub(), data=encoded.tostring())
+    return res
 
 
 async def get_prediction(image: cv.typing.MatLike):
@@ -45,13 +54,16 @@ async def display_one_frame(
 
 async def do_streaming(stream: WrappedVideoStream, container, prediction: Prediction):
     image = stream.read()
-    prediction_task = asyncio.create_task(get_prediction(image))
+    start = time.perf_counter()
+    prediction_task = asyncio.create_task(get_grpc(image))
 
     while not prediction_task.done():
         display_task = asyncio.create_task(
             display_one_frame(stream, container, prediction)
         )
         await display_task
+
+    print(time.perf_counter() - start)
 
     results = ast.literal_eval(prediction_task.result())
     if results:
