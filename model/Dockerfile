@@ -26,7 +26,7 @@ RUN SERIALIZED_FILE=$(ls | grep pth); torch-model-archiver --model-name fasterrc
 FROM serving_base AS serving_rest_api
 CMD ["torchserve", "--start", "--disable-token-auth", "--ncs", "--model-store model_store", "--models fasterrcnn.mar"]
 
-FROM serving_base as serving_grpc
+FROM serving_base AS serving_grpc
 # Should manage these with poetry, but will need to downgrade to python 3.9
 EXPOSE 7070 7071
 RUN pip install grpcio protobuf grpcio-tools googleapis-common-protos
