@@ -3,7 +3,7 @@
 import grpc
 import warnings
 
-import management_pb2 as management__pb2
+from grpc_serving import management_pb2 as grpc__serving_dot_management__pb2
 
 GRPC_GENERATED_VERSION = '1.68.1'
 GRPC_VERSION = grpc.__version__
@@ -18,7 +18,7 @@ except ImportError:
 if _version_not_supported:
     raise RuntimeError(
         f'The grpc package installed is at version {GRPC_VERSION},'
-        + f' but the generated code in management_pb2_grpc.py depends on'
+        + f' but the generated code in grpc_serving/management_pb2_grpc.py depends on'
         + f' grpcio>={GRPC_GENERATED_VERSION}.'
         + f' Please upgrade your grpc module to grpcio>={GRPC_GENERATED_VERSION}'
         + f' or downgrade your generated code using grpcio-tools<={GRPC_VERSION}.'
@@ -36,33 +36,33 @@ class ManagementAPIsServiceStub(object):
         """
         self.DescribeModel = channel.unary_unary(
                 '/org.pytorch.serve.grpc.management.ManagementAPIsService/DescribeModel',
-                request_serializer=management__pb2.DescribeModelRequest.SerializeToString,
-                response_deserializer=management__pb2.ManagementResponse.FromString,
+                request_serializer=grpc__serving_dot_management__pb2.DescribeModelRequest.SerializeToString,
+                response_deserializer=grpc__serving_dot_management__pb2.ManagementResponse.FromString,
                 _registered_method=True)
         self.ListModels = channel.unary_unary(
                 '/org.pytorch.serve.grpc.management.ManagementAPIsService/ListModels',
-                request_serializer=management__pb2.ListModelsRequest.SerializeToString,
-                response_deserializer=management__pb2.ManagementResponse.FromString,
+                request_serializer=grpc__serving_dot_management__pb2.ListModelsRequest.SerializeToString,
+                response_deserializer=grpc__serving_dot_management__pb2.ManagementResponse.FromString,
                 _registered_method=True)
         self.RegisterModel = channel.unary_unary(
                 '/org.pytorch.serve.grpc.management.ManagementAPIsService/RegisterModel',
-                request_serializer=management__pb2.RegisterModelRequest.SerializeToString,
-                response_deserializer=management__pb2.ManagementResponse.FromString,
+                request_serializer=grpc__serving_dot_management__pb2.RegisterModelRequest.SerializeToString,
+                response_deserializer=grpc__serving_dot_management__pb2.ManagementResponse.FromString,
                 _registered_method=True)
         self.ScaleWorker = channel.unary_unary(
                 '/org.pytorch.serve.grpc.management.ManagementAPIsService/ScaleWorker',
-                request_serializer=management__pb2.ScaleWorkerRequest.SerializeToString,
-                response_deserializer=management__pb2.ManagementResponse.FromString,
+                request_serializer=grpc__serving_dot_management__pb2.ScaleWorkerRequest.SerializeToString,
+                response_deserializer=grpc__serving_dot_management__pb2.ManagementResponse.FromString,
                 _registered_method=True)
         self.SetDefault = channel.unary_unary(
                 '/org.pytorch.serve.grpc.management.ManagementAPIsService/SetDefault',
-                request_serializer=management__pb2.SetDefaultRequest.SerializeToString,
-                response_deserializer=management__pb2.ManagementResponse.FromString,
+                request_serializer=grpc__serving_dot_management__pb2.SetDefaultRequest.SerializeToString,
+                response_deserializer=grpc__serving_dot_management__pb2.ManagementResponse.FromString,
                 _registered_method=True)
         self.UnregisterModel = channel.unary_unary(
                 '/org.pytorch.serve.grpc.management.ManagementAPIsService/UnregisterModel',
-                request_serializer=management__pb2.UnregisterModelRequest.SerializeToString,
-                response_deserializer=management__pb2.ManagementResponse.FromString,
+                request_serializer=grpc__serving_dot_management__pb2.UnregisterModelRequest.SerializeToString,
+                response_deserializer=grpc__serving_dot_management__pb2.ManagementResponse.FromString,
                 _registered_method=True)
 
 
@@ -116,33 +116,33 @@ def add_ManagementAPIsServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'DescribeModel': grpc.unary_unary_rpc_method_handler(
                     servicer.DescribeModel,
-                    request_deserializer=management__pb2.DescribeModelRequest.FromString,
-                    response_serializer=management__pb2.ManagementResponse.SerializeToString,
+                    request_deserializer=grpc__serving_dot_management__pb2.DescribeModelRequest.FromString,
+                    response_serializer=grpc__serving_dot_management__pb2.ManagementResponse.SerializeToString,
             ),
             'ListModels': grpc.unary_unary_rpc_method_handler(
                     servicer.ListModels,
-                    request_deserializer=management__pb2.ListModelsRequest.FromString,
-                    response_serializer=management__pb2.ManagementResponse.SerializeToString,
+                    request_deserializer=grpc__serving_dot_management__pb2.ListModelsRequest.FromString,
+                    response_serializer=grpc__serving_dot_management__pb2.ManagementResponse.SerializeToString,
             ),
             'RegisterModel': grpc.unary_unary_rpc_method_handler(
                     servicer.RegisterModel,
-                    request_deserializer=management__pb2.RegisterModelRequest.FromString,
-                    response_serializer=management__pb2.ManagementResponse.SerializeToString,
+                    request_deserializer=grpc__serving_dot_management__pb2.RegisterModelRequest.FromString,
+                    response_serializer=grpc__serving_dot_management__pb2.ManagementResponse.SerializeToString,
             ),
             'ScaleWorker': grpc.unary_unary_rpc_method_handler(
                     servicer.ScaleWorker,
-                    request_deserializer=management__pb2.ScaleWorkerRequest.FromString,
-                    response_serializer=management__pb2.ManagementResponse.SerializeToString,
+                    request_deserializer=grpc__serving_dot_management__pb2.ScaleWorkerRequest.FromString,
+                    response_serializer=grpc__serving_dot_management__pb2.ManagementResponse.SerializeToString,
             ),
             'SetDefault': grpc.unary_unary_rpc_method_handler(
                     servicer.SetDefault,
-                    request_deserializer=management__pb2.SetDefaultRequest.FromString,
-                    response_serializer=management__pb2.ManagementResponse.SerializeToString,
+                    request_deserializer=grpc__serving_dot_management__pb2.SetDefaultRequest.FromString,
+                    response_serializer=grpc__serving_dot_management__pb2.ManagementResponse.SerializeToString,
             ),
             'UnregisterModel': grpc.unary_unary_rpc_method_handler(
                     servicer.UnregisterModel,
-                    request_deserializer=management__pb2.UnregisterModelRequest.FromString,
-                    response_serializer=management__pb2.ManagementResponse.SerializeToString,
+                    request_deserializer=grpc__serving_dot_management__pb2.UnregisterModelRequest.FromString,
+                    response_serializer=grpc__serving_dot_management__pb2.ManagementResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -170,8 +170,8 @@ class ManagementAPIsService(object):
             request,
             target,
             '/org.pytorch.serve.grpc.management.ManagementAPIsService/DescribeModel',
-            management__pb2.DescribeModelRequest.SerializeToString,
-            management__pb2.ManagementResponse.FromString,
+            grpc__serving_dot_management__pb2.DescribeModelRequest.SerializeToString,
+            grpc__serving_dot_management__pb2.ManagementResponse.FromString,
             options,
             channel_credentials,
             insecure,
@@ -197,8 +197,8 @@ class ManagementAPIsService(object):
             request,
             target,
             '/org.pytorch.serve.grpc.management.ManagementAPIsService/ListModels',
-            management__pb2.ListModelsRequest.SerializeToString,
-            management__pb2.ManagementResponse.FromString,
+            grpc__serving_dot_management__pb2.ListModelsRequest.SerializeToString,
+            grpc__serving_dot_management__pb2.ManagementResponse.FromString,
             options,
             channel_credentials,
             insecure,
@@ -224,8 +224,8 @@ class ManagementAPIsService(object):
             request,
             target,
             '/org.pytorch.serve.grpc.management.ManagementAPIsService/RegisterModel',
-            management__pb2.RegisterModelRequest.SerializeToString,
-            management__pb2.ManagementResponse.FromString,
+            grpc__serving_dot_management__pb2.RegisterModelRequest.SerializeToString,
+            grpc__serving_dot_management__pb2.ManagementResponse.FromString,
             options,
             channel_credentials,
             insecure,
@@ -251,8 +251,8 @@ class ManagementAPIsService(object):
             request,
             target,
             '/org.pytorch.serve.grpc.management.ManagementAPIsService/ScaleWorker',
-            management__pb2.ScaleWorkerRequest.SerializeToString,
-            management__pb2.ManagementResponse.FromString,
+            grpc__serving_dot_management__pb2.ScaleWorkerRequest.SerializeToString,
+            grpc__serving_dot_management__pb2.ManagementResponse.FromString,
             options,
             channel_credentials,
             insecure,
@@ -278,8 +278,8 @@ class ManagementAPIsService(object):
             request,
             target,
             '/org.pytorch.serve.grpc.management.ManagementAPIsService/SetDefault',
-            management__pb2.SetDefaultRequest.SerializeToString,
-            management__pb2.ManagementResponse.FromString,
+            grpc__serving_dot_management__pb2.SetDefaultRequest.SerializeToString,
+            grpc__serving_dot_management__pb2.ManagementResponse.FromString,
             options,
             channel_credentials,
             insecure,
@@ -305,8 +305,8 @@ class ManagementAPIsService(object):
             request,
             target,
             '/org.pytorch.serve.grpc.management.ManagementAPIsService/UnregisterModel',
-            management__pb2.UnregisterModelRequest.SerializeToString,
-            management__pb2.ManagementResponse.FromString,
+            grpc__serving_dot_management__pb2.UnregisterModelRequest.SerializeToString,
+            grpc__serving_dot_management__pb2.ManagementResponse.FromString,
             options,
             channel_credentials,
             insecure,

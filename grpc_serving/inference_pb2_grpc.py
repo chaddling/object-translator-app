@@ -4,7 +4,7 @@ import grpc
 import warnings
 
 from google.protobuf import empty_pb2 as google_dot_protobuf_dot_empty__pb2
-import inference_pb2 as inference__pb2
+from grpc_serving import inference_pb2 as grpc__serving_dot_inference__pb2
 
 GRPC_GENERATED_VERSION = '1.68.1'
 GRPC_VERSION = grpc.__version__
@@ -19,7 +19,7 @@ except ImportError:
 if _version_not_supported:
     raise RuntimeError(
         f'The grpc package installed is at version {GRPC_VERSION},'
-        + f' but the generated code in inference_pb2_grpc.py depends on'
+        + f' but the generated code in grpc_serving/inference_pb2_grpc.py depends on'
         + f' grpcio>={GRPC_GENERATED_VERSION}.'
         + f' Please upgrade your grpc module to grpcio>={GRPC_GENERATED_VERSION}'
         + f' or downgrade your generated code using grpcio-tools<={GRPC_VERSION}.'
@@ -38,22 +38,22 @@ class InferenceAPIsServiceStub(object):
         self.Ping = channel.unary_unary(
                 '/org.pytorch.serve.grpc.inference.InferenceAPIsService/Ping',
                 request_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
-                response_deserializer=inference__pb2.TorchServeHealthResponse.FromString,
+                response_deserializer=grpc__serving_dot_inference__pb2.TorchServeHealthResponse.FromString,
                 _registered_method=True)
         self.Predictions = channel.unary_unary(
                 '/org.pytorch.serve.grpc.inference.InferenceAPIsService/Predictions',
-                request_serializer=inference__pb2.PredictionsRequest.SerializeToString,
-                response_deserializer=inference__pb2.PredictionResponse.FromString,
+                request_serializer=grpc__serving_dot_inference__pb2.PredictionsRequest.SerializeToString,
+                response_deserializer=grpc__serving_dot_inference__pb2.PredictionResponse.FromString,
                 _registered_method=True)
         self.StreamPredictions = channel.unary_stream(
                 '/org.pytorch.serve.grpc.inference.InferenceAPIsService/StreamPredictions',
-                request_serializer=inference__pb2.PredictionsRequest.SerializeToString,
-                response_deserializer=inference__pb2.PredictionResponse.FromString,
+                request_serializer=grpc__serving_dot_inference__pb2.PredictionsRequest.SerializeToString,
+                response_deserializer=grpc__serving_dot_inference__pb2.PredictionResponse.FromString,
                 _registered_method=True)
         self.StreamPredictions2 = channel.stream_stream(
                 '/org.pytorch.serve.grpc.inference.InferenceAPIsService/StreamPredictions2',
-                request_serializer=inference__pb2.PredictionsRequest.SerializeToString,
-                response_deserializer=inference__pb2.PredictionResponse.FromString,
+                request_serializer=grpc__serving_dot_inference__pb2.PredictionsRequest.SerializeToString,
+                response_deserializer=grpc__serving_dot_inference__pb2.PredictionResponse.FromString,
                 _registered_method=True)
 
 
@@ -94,22 +94,22 @@ def add_InferenceAPIsServiceServicer_to_server(servicer, server):
             'Ping': grpc.unary_unary_rpc_method_handler(
                     servicer.Ping,
                     request_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
-                    response_serializer=inference__pb2.TorchServeHealthResponse.SerializeToString,
+                    response_serializer=grpc__serving_dot_inference__pb2.TorchServeHealthResponse.SerializeToString,
             ),
             'Predictions': grpc.unary_unary_rpc_method_handler(
                     servicer.Predictions,
-                    request_deserializer=inference__pb2.PredictionsRequest.FromString,
-                    response_serializer=inference__pb2.PredictionResponse.SerializeToString,
+                    request_deserializer=grpc__serving_dot_inference__pb2.PredictionsRequest.FromString,
+                    response_serializer=grpc__serving_dot_inference__pb2.PredictionResponse.SerializeToString,
             ),
             'StreamPredictions': grpc.unary_stream_rpc_method_handler(
                     servicer.StreamPredictions,
-                    request_deserializer=inference__pb2.PredictionsRequest.FromString,
-                    response_serializer=inference__pb2.PredictionResponse.SerializeToString,
+                    request_deserializer=grpc__serving_dot_inference__pb2.PredictionsRequest.FromString,
+                    response_serializer=grpc__serving_dot_inference__pb2.PredictionResponse.SerializeToString,
             ),
             'StreamPredictions2': grpc.stream_stream_rpc_method_handler(
                     servicer.StreamPredictions2,
-                    request_deserializer=inference__pb2.PredictionsRequest.FromString,
-                    response_serializer=inference__pb2.PredictionResponse.SerializeToString,
+                    request_deserializer=grpc__serving_dot_inference__pb2.PredictionsRequest.FromString,
+                    response_serializer=grpc__serving_dot_inference__pb2.PredictionResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -138,7 +138,7 @@ class InferenceAPIsService(object):
             target,
             '/org.pytorch.serve.grpc.inference.InferenceAPIsService/Ping',
             google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
-            inference__pb2.TorchServeHealthResponse.FromString,
+            grpc__serving_dot_inference__pb2.TorchServeHealthResponse.FromString,
             options,
             channel_credentials,
             insecure,
@@ -164,8 +164,8 @@ class InferenceAPIsService(object):
             request,
             target,
             '/org.pytorch.serve.grpc.inference.InferenceAPIsService/Predictions',
-            inference__pb2.PredictionsRequest.SerializeToString,
-            inference__pb2.PredictionResponse.FromString,
+            grpc__serving_dot_inference__pb2.PredictionsRequest.SerializeToString,
+            grpc__serving_dot_inference__pb2.PredictionResponse.FromString,
             options,
             channel_credentials,
             insecure,
@@ -191,8 +191,8 @@ class InferenceAPIsService(object):
             request,
             target,
             '/org.pytorch.serve.grpc.inference.InferenceAPIsService/StreamPredictions',
-            inference__pb2.PredictionsRequest.SerializeToString,
-            inference__pb2.PredictionResponse.FromString,
+            grpc__serving_dot_inference__pb2.PredictionsRequest.SerializeToString,
+            grpc__serving_dot_inference__pb2.PredictionResponse.FromString,
             options,
             channel_credentials,
             insecure,
@@ -218,8 +218,8 @@ class InferenceAPIsService(object):
             request_iterator,
             target,
             '/org.pytorch.serve.grpc.inference.InferenceAPIsService/StreamPredictions2',
-            inference__pb2.PredictionsRequest.SerializeToString,
-            inference__pb2.PredictionResponse.FromString,
+            grpc__serving_dot_inference__pb2.PredictionsRequest.SerializeToString,
+            grpc__serving_dot_inference__pb2.PredictionResponse.FromString,
             options,
             channel_credentials,
             insecure,

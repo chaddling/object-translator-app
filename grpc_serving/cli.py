@@ -1,9 +1,7 @@
 import grpc
 import logging
-import inference_pb2
-import inference_pb2_grpc
-import management_pb2
-import management_pb2_grpc
+
+from . import inference_pb2, inference_pb2_grpc, management_pb2, management_pb2_grpc
 
 MODEL_NAME = "fasterrcnn"
 METADATA = (("protocol", "gRPC"),)
