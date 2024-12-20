@@ -1,6 +1,6 @@
-FROM pytorch/torchserve
+FROM pytorch/torchserve AS serving_base
 USER $USERNAME
-EXPOSE 8080 8081 8082
+EXPOSE 8080 8081 
 
 ARG MODEL_NAME
 
@@ -23,4 +23,13 @@ RUN SERIALIZED_FILE=$(ls | grep pth); torch-model-archiver --model-name fasterrc
 ./model.py --serialized-file $SERIALIZED_FILE \
 --extra-files ./index_to_name.json --export-path model_store --handler object_detector
 
-CMD ["torchserve", "--start", "--disable-token-auth", "--ncs", "--model-store model_store", "--models fasterrcnn.mar"]
+FROM serving_base AS serving_rest_api
+CMD ["torchserve", "--start", "--disable-token-auth", "--ncs", "--model-store", "model_store", "--models", "fasterrcnn.mar"]
+
+FROM serving_base AS serving_grpc
+# Should manage these with poetry, but will need to downgrade to python 3.9
+EXPOSE 7070 7071
+RUN pip install grpcio protobuf grpcio-tools googleapis-common-protos
+ADD ./grpc_serving /model/grpc_serving
+
+CMD ["torchserve", "--start", "--disable-token-auth", "--enable-model-api", "--model-store", "model_store"]
