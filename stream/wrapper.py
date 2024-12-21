@@ -1,4 +1,5 @@
 import cv2 as cv
+import translators as ts
 import logging
 
 from typing import Self
@@ -55,3 +56,20 @@ class Prediction:
 
     def get(self):
         return self.label, self.bounding_box, self.score
+
+
+class Translator:
+    def __init__(
+        self, to_language: str, from_language: str = "en", translator: str = "bing"
+    ):
+        self.to_language = to_language
+        self.from_language = from_language
+        self.translator = translator
+
+    def translate(self, text: str):
+        return ts.translate_text(
+            query_text=text,
+            translator=self.translator,
+            to_language=self.to_language,
+            from_language=self.from_language,
+        )

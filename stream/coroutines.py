@@ -4,7 +4,7 @@ import asyncio
 import time
 import cv2 as cv
 
-from stream.wrapper import WrappedVideoStream, Prediction
+from stream.wrapper import WrappedVideoStream, Prediction, Translator
 from grpc_serving.cli import infer, get_inference_stub
 
 URL = "http://localhost:8080/predictions/fasterrcnn"
@@ -52,7 +52,12 @@ async def display_one_frame(
     container.image(image, channels="RGB")
 
 
-async def do_streaming(stream: WrappedVideoStream, container, prediction: Prediction):
+async def do_streaming(
+    stream: WrappedVideoStream,
+    container,
+    prediction: Prediction,
+    translator: Translator,
+):
     image = stream.read()
     start = time.perf_counter()
     prediction_task = asyncio.create_task(get_grpc(image))
@@ -69,4 +74,6 @@ async def do_streaming(stream: WrappedVideoStream, container, prediction: Predic
     if results:
         label, bounding_box = next(iter(results[0].items()))
         score = results[0]["score"]
+
+        label = translator.translate(label)
         prediction.set(label=label, bounding_box=bounding_box, score=score)
