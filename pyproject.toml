@@ -16,6 +16,7 @@ grpcio = "^1.68.1"
 protobuf = "^5.29.1"
 grpcio-tools = "^1.68.1"
 googleapis-common-protos = "^1.66.0"
+translators = "^5.9.3"
 
 [tool.poetry.group.dev.dependencies]
 black = "^24.10.0"
