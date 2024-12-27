@@ -3,14 +3,14 @@ import streamlit as st
 
 from stream.wrapper import WrappedVideoStream, Prediction, Translator
 from stream.coroutines import do_streaming
-from grpc_serving.cli import get_management_stub, register
+from grpc_serving import cli
 
 stream = WrappedVideoStream.open(src=0)
 container = st.empty()  # What's the type hint?
 prediction = Prediction()
 translator = Translator(to_language="fr")
 
-register(get_management_stub())
+cli.register()
 
 
 async def main():
