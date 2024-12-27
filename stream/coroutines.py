@@ -5,7 +5,7 @@ import time
 import cv2 as cv
 
 from stream.wrapper import WrappedVideoStream, Prediction, Translator
-from grpc_serving.cli import infer, get_inference_stub
+from grpc_serving.cli import infer
 
 URL = "http://localhost:8080/predictions/fasterrcnn"
 
@@ -13,7 +13,7 @@ URL = "http://localhost:8080/predictions/fasterrcnn"
 async def get_grpc(image: cv.typing.MatLike):
     _, encoded = cv.imencode(".jpg", image)
 
-    res = await infer(get_inference_stub(), data=encoded.tostring())
+    res = await infer(data=encoded.tostring())
     return res
 
 
