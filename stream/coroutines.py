@@ -60,7 +60,7 @@ async def do_streaming(
 ):
     image = stream.read()
     start = time.perf_counter()
-    prediction_task = asyncio.create_task(get_grpc(image))
+    prediction_task = asyncio.create_task(get_prediction(image))
 
     while not prediction_task.done():
         display_task = asyncio.create_task(
